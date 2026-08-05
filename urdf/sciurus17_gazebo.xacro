@@ -48,13 +48,15 @@
       <xacro:material_gazebo_white/>
     </gazebo>
 
-    <gazebo reference="neck_yaw_link">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+    <xacro:if value="${ENABLE_HEAD}">
+      <gazebo reference="neck_yaw_link">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="neck_pitch_link">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="neck_pitch_link">
+        <xacro:material_gazebo_white/>
+      </gazebo>
+    </xacro:if>
 
     <gazebo>
       <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
@@ -212,85 +214,93 @@
       </gazebo>
     </xacro:if>
 
-    <gazebo reference="r_link1">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+    <xacro:if value="${ENABLE_ARM_R}">
+      <gazebo reference="r_link1">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="r_link2">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="r_link2">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="r_link3">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="r_link3">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="r_link4">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="r_link4">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="r_link5">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="r_link5">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="r_link6">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="r_link6">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="r_link7">
-      <xacro:material_gazebo_red/>
-    </gazebo>
+      <gazebo reference="r_link7">
+        <xacro:material_gazebo_red/>
+      </gazebo>
+    </xacro:if>
 
-    <gazebo reference="r_gripperA_link">
-      <mu1>0.8</mu1>
-      <mu2>0.8</mu2>
-      <xacro:material_gazebo_red/>
-    </gazebo>
+    <xacro:if value="${ENABLE_GRIPPER_R}">
+      <gazebo reference="r_gripperA_link">
+        <mu1>0.8</mu1>
+        <mu2>0.8</mu2>
+        <xacro:material_gazebo_red/>
+      </gazebo>
 
-    <gazebo reference="r_gripperB_link">
-      <mu1>0.8</mu1>
-      <mu2>0.8</mu2>
-      <xacro:material_gazebo_red/>
-    </gazebo>
+      <gazebo reference="r_gripperB_link">
+        <mu1>0.8</mu1>
+        <mu2>0.8</mu2>
+        <xacro:material_gazebo_red/>
+      </gazebo>
+    </xacro:if>
 
-    <gazebo reference="l_link1">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+    <xacro:if value="${ENABLE_ARM_L}">
+      <gazebo reference="l_link1">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="l_link2">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="l_link2">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="l_link3">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="l_link3">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="l_link4">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="l_link4">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="l_link5">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="l_link5">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="l_link6">
-      <xacro:material_gazebo_white/>
-    </gazebo>
+      <gazebo reference="l_link6">
+        <xacro:material_gazebo_white/>
+      </gazebo>
 
-    <gazebo reference="l_link7">
-      <xacro:material_gazebo_red/>
-    </gazebo>
+      <gazebo reference="l_link7">
+        <xacro:material_gazebo_red/>
+      </gazebo>
+    </xacro:if>
 
-    <gazebo reference="l_gripperA_link">
-      <mu1>0.8</mu1>
-      <mu2>0.8</mu2>
-      <xacro:material_gazebo_red/>
-    </gazebo>
+    <xacro:if value="${ENABLE_GRIPPER_L}">
+      <gazebo reference="l_gripperA_link">
+        <mu1>0.8</mu1>
+        <mu2>0.8</mu2>
+        <xacro:material_gazebo_red/>
+      </gazebo>
 
-    <gazebo reference="l_gripperB_link">
-      <mu1>0.8</mu1>
-      <mu2>0.8</mu2>
-      <xacro:material_gazebo_red/>
-    </gazebo>
+      <gazebo reference="l_gripperB_link">
+        <mu1>0.8</mu1>
+        <mu2>0.8</mu2>
+        <xacro:material_gazebo_red/>
+      </gazebo>
+    </xacro:if>
 
   </xacro:macro>
 </robot>
