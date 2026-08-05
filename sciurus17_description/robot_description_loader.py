@@ -17,6 +17,7 @@ class RobotDescriptionLoader():
         self.baudrate = '3000000'
         self.timeout_seconds = '1.0'
         self.manipulator_config_file_path = ''
+        self.use_kachaka_base = 'false'
         self.use_gazebo = 'false'
         self.use_gazebo_head_camera = 'false'
         self.use_gazebo_chest_camera = 'false'
@@ -34,6 +35,7 @@ class RobotDescriptionLoader():
                 ' timeout_seconds:=', self.timeout_seconds,
                 ' manipulator_config_file_path:=', self.manipulator_config_file_path,
                 ' use_gazebo:=', self.use_gazebo,
+                ' use_kachaka_base:=', self.use_kachaka_base,
                 ' use_gazebo_head_camera:=', self.use_gazebo_head_camera,
                 ' use_gazebo_chest_camera:=', self.use_gazebo_chest_camera,
                 ' use_mock_components:=', self.use_mock_components,
