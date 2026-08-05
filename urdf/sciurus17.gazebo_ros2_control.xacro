@@ -2,7 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:macro name="sciurus17_gazebo_ros2_control_settings">
-
     <ros2_control name="sciurus17" type="system">
       <hardware>
         <plugin>gz_ros2_control/GazeboSimSystem</plugin>
@@ -251,6 +250,35 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
+
+      <!-- Kachaka wheel joints (conditional) -->
+      <xacro:if value="$(arg use_kachaka_base)">
+        <joint name="base_l_drive_wheel_joint">
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="base_r_drive_wheel_joint">
+          <command_interface name="velocity"/>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+
+        <joint name="docking_joint">
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+          <state_interface name="effort"/>
+        </joint>
+      </xacro:if>
 
     </ros2_control>
   </xacro:macro>
