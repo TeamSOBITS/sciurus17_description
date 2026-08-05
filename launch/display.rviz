@@ -66,7 +66,7 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_link:
+        body_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -213,7 +213,7 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        base_link:
+        body_base_link:
           Value: true
         body_link:
           Value: true
@@ -274,7 +274,7 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
-          base_link:
+          body_base_link:
             body_link:
               chest_camera_link:
                 {}
@@ -313,7 +313,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: body_base_link
     Frame Rate: 30
   Name: root
   Tools:
