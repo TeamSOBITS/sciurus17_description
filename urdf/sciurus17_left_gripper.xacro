@@ -2,7 +2,9 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:macro name="sciurus17_left_gripper">
+  <!-- The wrist link is part of the arm: it is the child of X_arm_joint7 and must
+       exist even when the gripper is not built. -->
+  <xacro:macro name="sciurus17_left_wrist">
 
     <link name="l_link7">
       <visual>
@@ -24,6 +26,10 @@
         <mass value="121.0e-03"/>
       </inertial>
     </link>
+  </xacro:macro>
+
+  <xacro:macro name="sciurus17_left_gripper">
+
 
     <joint name="l_gripper_joint" type="revolute">
       <parent link="l_link7" />
