@@ -20,6 +20,10 @@
   <depend>rviz2</depend>
   <depend>xacro</depend>
 
+  <!-- Only required when building the URDF with use_kachaka_base:=true. -->
+  <exec_depend>kachaka_description</exec_depend>
+  <exec_depend>sciurus17_kachaka_description</exec_depend>
+
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
   <test_depend>ament_cmake_pytest</test_depend>
