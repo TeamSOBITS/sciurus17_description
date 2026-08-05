@@ -23,6 +23,11 @@ class RobotDescriptionLoader():
         self.use_gazebo_chest_camera = 'false'
         self.use_mock_components = 'false'
         self.use_isaacsim = 'false'
+        self.enable_head = 'true'
+        self.enable_arm_right = 'true'
+        self.enable_arm_left = 'true'
+        self.enable_gripper_right = 'true'
+        self.enable_gripper_left = 'true'
         self.gz_control_config_package = ''
         self.gz_control_config_file_path = ''
 
@@ -40,6 +45,11 @@ class RobotDescriptionLoader():
                 ' use_gazebo_chest_camera:=', self.use_gazebo_chest_camera,
                 ' use_mock_components:=', self.use_mock_components,
                 ' use_isaacsim:=', self.use_isaacsim,
+                ' enable_head:=', self.enable_head,
+                ' enable_arm_right:=', self.enable_arm_right,
+                ' enable_arm_left:=', self.enable_arm_left,
+                ' enable_gripper_right:=', self.enable_gripper_right,
+                ' enable_gripper_left:=', self.enable_gripper_left,
                 ' gz_control_config_package:=', self.gz_control_config_package,
                 ' gz_control_config_file_path:=', self.gz_control_config_file_path
                 ])
