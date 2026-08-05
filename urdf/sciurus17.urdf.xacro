@@ -25,6 +25,25 @@
   <xacro:arg name="use_isaacsim" default="false" />
   <xacro:arg name="use_kachaka_base" default="false" />
 
+  <!-- Activate components.
+       A gripper can only be built when its arm is, since it mounts on the arm's
+       last link. Requesting a gripper without its arm therefore has no effect. -->
+  <xacro:arg name="enable_head" default="true" />
+  <xacro:arg name="enable_arm_right" default="true" />
+  <xacro:arg name="enable_arm_left" default="true" />
+  <xacro:arg name="enable_gripper_right" default="true" />
+  <xacro:arg name="enable_gripper_left" default="true" />
+
+  <!-- Compared as text so that both 'true' and 'True' are accepted, matching the
+       spelling used by the other arguments of this file. -->
+  <xacro:property name="ENABLE_HEAD" value="${'$(arg enable_head)'.lower() == 'true'}"/>
+  <xacro:property name="ENABLE_ARM_R" value="${'$(arg enable_arm_right)'.lower() == 'true'}"/>
+  <xacro:property name="ENABLE_ARM_L" value="${'$(arg enable_arm_left)'.lower() == 'true'}"/>
+  <xacro:property name="ENABLE_GRIPPER_R"
+    value="${'$(arg enable_gripper_right)'.lower() == 'true' and ENABLE_ARM_R}"/>
+  <xacro:property name="ENABLE_GRIPPER_L"
+    value="${'$(arg enable_gripper_left)'.lower() == 'true' and ENABLE_ARM_L}"/>
+
   <!-- Kachaka base support (optional).
        These are included only when the Kachaka base is requested so that the default
        fixed-base configuration does not depend on the Kachaka packages being installed. -->
@@ -157,15 +176,27 @@
 
   <xacro:sciurus17_body/>
 
-  <xacro:sciurus17_head/>
+  <xacro:if value="${ENABLE_HEAD}">
+    <xacro:sciurus17_head/>
+  </xacro:if>
 
-  <xacro:sciurus17_right_arm/>
+  <xacro:if value="${ENABLE_ARM_R}">
+    <xacro:sciurus17_right_arm/>
+    <xacro:sciurus17_right_wrist/>
+  </xacro:if>
 
-  <xacro:sciurus17_right_gripper/>
+  <xacro:if value="${ENABLE_GRIPPER_R}">
+    <xacro:sciurus17_right_gripper/>
+  </xacro:if>
 
-  <xacro:sciurus17_left_arm/>
+  <xacro:if value="${ENABLE_ARM_L}">
+    <xacro:sciurus17_left_arm/>
+    <xacro:sciurus17_left_wrist/>
+  </xacro:if>
 
-  <xacro:sciurus17_left_gripper/>
+  <xacro:if value="${ENABLE_GRIPPER_L}">
+    <xacro:sciurus17_left_gripper/>
+  </xacro:if>
 
   <xacro:unless value="$(arg use_gazebo)">
 
@@ -191,7 +222,8 @@
 
   </xacro:if>
 
-  <xacro:if value="${'$(arg use_gazebo)' == 'true' or '$(arg use_isaacsim)' == 'true'}">
+  <!-- These frames hang off head_camera_link, so they only exist with the head. -->
+  <xacro:if value="${('$(arg use_gazebo)' == 'true' or '$(arg use_isaacsim)' == 'true') and ENABLE_HEAD}">
 
     <joint name="head_camera_color_joint" type="fixed">
       <origin xyz="0 0.015 0" rpy="0 0 0" />
