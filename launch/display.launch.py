@@ -2,18 +2,25 @@
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
 from sciurus17_description.robot_description_loader import RobotDescriptionLoader
 
 
 def generate_launch_description():
     description_loader = RobotDescriptionLoader()
+    declare_kachaka_arg = DeclareLaunchArgument(
+        'use_kachaka_base', default_value='false', description='Enable Kachaka mobile base')
+    use_kachaka = LaunchConfiguration('use_kachaka_base')
+    description_loader.use_kachaka_base = use_kachaka
 
     rsp = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='both',
-        parameters=[{'robot_description': description_loader.load()}],
+        parameters=[{'robot_description': ParameterValue(description_loader.load(), value_type=str)}],
     )
     jsp = Node(
         package='joint_state_publisher_gui',
@@ -34,6 +41,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            declare_kachaka_arg,
             rsp,
             jsp,
             rviz,
