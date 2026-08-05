@@ -16,6 +16,16 @@ def generate_launch_description():
     use_kachaka = LaunchConfiguration('use_kachaka_base')
     description_loader.use_kachaka_base = use_kachaka
 
+    component_args = ['enable_head', 'enable_arm_right', 'enable_arm_left',
+                      'enable_gripper_right', 'enable_gripper_left']
+
+    declare_components = [
+        DeclareLaunchArgument(name, default_value='true', description='Build this component.')
+        for name in component_args
+    ]
+    for name in component_args:
+        setattr(description_loader, name, LaunchConfiguration(name))
+
     rsp = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -42,6 +52,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             declare_kachaka_arg,
+            *declare_components,
             rsp,
             jsp,
             rviz,
