@@ -68,7 +68,7 @@
           <update_rate>10</update_rate>
           <always_on>true</always_on>
           <topic>head_camera</topic>
-          <frame_id>head_camera_color_frame</frame_id>
+          <gz_frame_id>head_camera_color_frame</gz_frame_id>
           <camera name="realsense_d415">
             <xacro:property name="head_camera_width" value="640"/>
             <xacro:property name="head_camera_height" value="360"/>
@@ -89,7 +89,6 @@
                 <far>3.0</far>
               </clip>
             </depth_camera>
-            <optical_frame_id>head_camera_color_optical_frame</optical_frame_id>
             <lens>
               <intrinsics>
                 <fx>${head_camera_focal_length}</fx>
@@ -153,6 +152,63 @@
             </lens>
           </camera>
         </sensor>
+      </gazebo>
+    </xacro:if>
+
+    <xacro:if value="$(arg use_kachaka_base)">
+      <gazebo reference="base_link">
+        <mu1>0.0</mu1>
+        <mu2>0.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>1.0</kd>
+      </gazebo>
+
+      <gazebo reference="base_l_drive_wheel_link">
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <slip1>0.035</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.2</soft_erp>
+              <kp>1e+5</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
+      </gazebo>
+
+      <gazebo reference="base_r_drive_wheel_link">
+        <surface>
+          <friction>
+            <ode>
+              <mu>1</mu>
+              <mu2>1</mu2>
+              <slip1>0.035</slip1>
+              <slip2>0</slip2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+          <contact>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.2</soft_erp>
+              <kp>1e+5</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+        </surface>
       </gazebo>
     </xacro:if>
 
