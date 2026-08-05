@@ -40,7 +40,7 @@
       </plugin>
     </gazebo>
 
-    <gazebo reference="base_link">
+    <gazebo reference="body_base_link">
       <xacro:material_gazebo_white/>
     </gazebo>
 

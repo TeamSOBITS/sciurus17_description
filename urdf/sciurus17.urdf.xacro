@@ -17,11 +17,26 @@
   <xacro:include filename="$(find sciurus17_description)/urdf/sciurus17_gazebo.xacro"/>
   <xacro:include filename="$(find sciurus17_description)/urdf/sciurus17.gazebo_ros2_control.xacro"/>
 
+  <!-- Arguments: declare before use in conditionals -->
   <xacro:arg name="use_gazebo" default="false" />
   <xacro:arg name="use_gazebo_head_camera" default="false" />
   <xacro:arg name="use_gazebo_chest_camera" default="false" />
   <xacro:arg name="use_mock_components" default="false" />
   <xacro:arg name="use_isaacsim" default="false" />
+  <xacro:arg name="use_kachaka_base" default="false" />
+
+  <!-- Kachaka base support (optional).
+       These are included only when the Kachaka base is requested so that the default
+       fixed-base configuration does not depend on the Kachaka packages being installed. -->
+  <xacro:if value="$(arg use_kachaka_base)">
+    <xacro:include filename="$(find sciurus17_kachaka_description)/urdf/_kachaka_base.urdf.xacro"/>
+    <xacro:include filename="$(find sciurus17_kachaka_description)/urdf/_sciurus17_vehicle_body.urdf.xacro"/>
+
+    <!-- Kachaka mobile robot (for mobile manipulator mode) -->
+    <xacro:include filename="$(find kachaka_description)/urdf/_values.urdf.xacro"/>
+    <xacro:include filename="$(find kachaka_description)/urdf/_kachaka.urdf.xacro"/>
+    <xacro:include filename="$(find kachaka_description)/urdf/_materials.urdf.xacro"/>
+  </xacro:if>
   <xacro:arg name="port_name" default="/dev/sciurus17spine" />
   <xacro:arg name="baudrate" default="3000000" />
   <xacro:arg name="timeout_seconds" default="1.0" />
@@ -95,13 +110,50 @@
   <xacro:property name="JOINT_GRIPPER_L_UPPER_LIMIT" value="${radians(0.05)}"/>
 
 
-  <!-- Used for fixing robot 'base_link'  to Gazebo 'world' -->
-  <link name="world"/>
+  <!-- Conditional base configuration: with or without Kachaka base -->
+  <xacro:if value="$(arg use_kachaka_base)">
+    <!-- With Kachaka mobile base configuration:
+         base_footprint -> kachaka_robot (mobile platform) -> kachaka_base_link -> 
+         sciurus17_vehicle_body -> sciurus17_body
+         base_footprint allows proper mobile manipulation with full Kachaka mobility.
+    -->
+    <link name="base_footprint"/>
+    
+    <xacro:kachaka_robot parent="base_footprint">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </xacro:kachaka_robot>
 
-  <joint name="base_link_to_world_joint" type="fixed">
-    <parent link="world"/>
-    <child link="base_link"/>
-  </joint>
+    <!-- Kachaka static base frame attached to the mobile base_link -->
+    <xacro:kachaka_base parent="base_link">
+      <origin xyz="0.0 0.0 0.1408" rpy="0.0 0.0 0.0" />
+    </xacro:kachaka_base>
+
+    <!-- Add vehicle body (structural frame connecting Kachaka to Sciurus17 upper body) -->
+    <xacro:sciurus17_vehicle_body parent="kachaka_base_link">
+      <origin rpy="0 0 0" xyz="${0.007+0.13/2} 0.0 0.0"/>
+    </xacro:sciurus17_vehicle_body>
+
+    <!-- Connect the upper body to the vehicle body's upper section -->
+    <joint name="base_link_to_world_joint" type="fixed">
+      <parent link="sciurus17_vehicle_body_upper_link"/>
+      <child link="body_base_link"/>
+      <origin xyz="${-0.062+0.13/2+0.02} 0 0.34" rpy="0 0 0"/>
+    </joint>
+  </xacro:if>
+
+  <xacro:unless value="$(arg use_kachaka_base)">
+    <!-- Used for fixing robot 'body_base_link' to Gazebo 'world' -->
+    <link name="world"/>
+
+    <!-- Upper body only: world -> body_base_link (standard fixed sciurus17 configuration)
+         This is a fixed manipulator without mobile base.
+    -->
+    <joint name="base_link_to_world_joint" type="fixed">
+      <parent link="world"/>
+      <child link="body_base_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+  </xacro:unless>
 
   <xacro:sciurus17_body/>
 

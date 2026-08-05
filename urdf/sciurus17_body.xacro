@@ -4,7 +4,7 @@
 
   <xacro:macro name="sciurus17_body">
 
-    <link name="base_link">
+    <link name="body_base_link">
       <visual>
         <geometry>
           <mesh filename="package://sciurus17_description/meshes/visual/Base.stl" scale="1.0 1.0 1.0"/>
@@ -25,7 +25,7 @@
     </link>
 
     <joint name="waist_yaw_joint" type="revolute">
-      <parent link="base_link" />
+      <parent link="body_base_link" />
       <child link="body_link" />
       <origin xyz="0.0 0.0 0.1315" rpy="0 0 0"/>
       <limit 
